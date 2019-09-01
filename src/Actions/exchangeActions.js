@@ -3,7 +3,8 @@ import {
     GET_ALL_LATEST_RATE_SUCCESS,
     GET_ALL_LATEST_RATE_FAIL,
     CHANGE_INITIAL_VALUE,
-    SUBMIT_RATES_VALUE
+    SUBMIT_RATES_VALUE,
+    REMOVE_RATES_VALUE
 } from './types';
 
 const baselink = 'https://api.exchangeratesapi.io/';
@@ -39,6 +40,13 @@ export const changeInitialValue = (text) => {
 export const insertRates = (rates) => {
     console.log('rates : ', rates);
     return(dispatch) => {
-        dispatch({type: SUBMIT_RATES_VALUE, payload: rates});
+        dispatch({type: SUBMIT_RATES_VALUE, payload: {rates: rates[0], value: rates[1]}});
+    }
+}
+
+export const removeRates = (index) => {
+    console.log('rates : ', index);
+    return(dispatch) => {
+        dispatch({type: REMOVE_RATES_VALUE, payload: index});
     }
 }

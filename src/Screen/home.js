@@ -1,9 +1,10 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import {
   getAllExchangeRates,
   changeInitialValue,
-  insertRates
+  insertRates,
+  removeRates
 } from '../Actions'
 import { 
   Button,
@@ -17,11 +18,13 @@ import {
    ListExchange
  } from '../Components'
  import './home.css';
-class Home extends Component {
+
+class Home extends PureComponent {
   constructor(props){
     super(props);
     this.state = {
-      selectedRates : ""
+      selectedRates : "",
+      rates : this.props.selectedRates
     }
     this.handleChange = this.handleChange.bind(this);
   }
@@ -31,7 +34,6 @@ class Home extends Component {
   }
 
   handleChange(event) {
-    console.log(event.target.value);
     this.props.changeInitialValue(event.target.value);
   }
 
@@ -41,9 +43,12 @@ class Home extends Component {
   }
 
   handleSubmit = () => {
-    console.log('button clicked', this.state.selectedRates);
     this.props.insertRates(this.state.selectedRates);
   }
+
+  removeExchangeRates = (index) => {
+    this.props.removeRates(index);
+  } 
 
   render() {
     return (
@@ -63,12 +68,8 @@ class Home extends Component {
         </div>
         <Container>
         {this.props.listAllExchangeRatesLoading ? 'Loading. . . ..' : 
-          // Object.entries(this.props.selectedRates).map(([k, v]) => (
-          //   <ListExchange rates={k} key={k} value={v} initial={this.props.initialExchangeValue} />
-          // ))
-
-          this.props.selectedRates.map((item) => (
-            <ListExchange rates={item[0]} key={item[0]} value={item[1]} initial={this.props.initialExchangeValue} />
+          this.props.selectedRates.map((item, index) => (
+            <ListExchange clicked={this.removeExchangeRates} index={index} rates={item.rates} key={item.rates} value={item.value} initial={this.props.initialExchangeValue} />
           ))
         }
         <Button style={{marginTop: 10, width:'100%', padding: 10}}>
@@ -109,7 +110,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   getAllExchangeRates,
   changeInitialValue,
-  insertRates
+  insertRates,
+  removeRates
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home)
