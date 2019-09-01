@@ -24,9 +24,9 @@ const removeElement = (array, elem) => {
 }
 
 const arrayRemains = (array, arraySelected) => {
-    // array = array.filter((item) => {
-    //     return !arraySelected.includes(item);
-    // })
+    array = array.filter((item) => {
+        return !arraySelected.includes(item);
+    })
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -40,7 +40,7 @@ export default (state = INITIAL_STATE, action) => {
         case CHANGE_INITIAL_VALUE:
             return { ...state, initial: action.payload};
         case SUBMIT_RATES_VALUE:
-            return { ...state, selectedRates: [...state.selectedRates, action.payload] };
+            return { ...state, selectedRates: [...state.selectedRates, action.payload]};
         case REMOVE_RATES_VALUE:
             console.log('index ke : ', action.payload);
             return { ...state, selectedRates: [...state.selectedRates.slice(0, action.payload), ...state.selectedRates.slice(action.payload+1)]};

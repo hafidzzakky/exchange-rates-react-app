@@ -24,7 +24,7 @@ class Home extends PureComponent {
     super(props);
     this.state = {
       selectedRates : "",
-      rates : this.props.selectedRates
+      addButtonVisible: true
     }
     this.handleChange = this.handleChange.bind(this);
   }
@@ -43,12 +43,21 @@ class Home extends PureComponent {
   }
 
   handleSubmit = () => {
+    this.toggleAddButton(!this.state.addButtonVisible);
     this.props.insertRates(this.state.selectedRates);
+    
   }
 
   removeExchangeRates = (index) => {
     this.props.removeRates(index);
   } 
+
+  toggleAddButton = (visible) => {
+    console.log('toggale ', this.state.addButtonVisible)
+    this.setState({
+      addButtonVisible: visible
+    })
+  }
 
   render() {
     return (
@@ -72,27 +81,30 @@ class Home extends PureComponent {
             <ListExchange clicked={this.removeExchangeRates} index={index} rates={item.rates} key={item.rates} value={item.value} initial={this.props.initialExchangeValue} />
           ))
         }
-        <Button style={{marginTop: 10, width:'100%', padding: 10}}>
-          <h5>(+) Add More Currencies</h5>
-        </Button>
-        <div style={{marginTop: 10}}>
-          <Row>
-            <Col>
-              <DropdownButton id="dropdown-item-button" title={this.state.selectedRates===''? 'Select Rates' : this.state.selectedRates[0]}>
-                {this.props.listAllExchangeRatesLoading ? 'Loading. . . ..' : 
-                  Object.entries(this.props.listAllExchangeRates).map(([k, v]) => (
-                    <Dropdown.Item as="button" eventKey={[k, v]} onSelect={this.handleSelected} key={k}>{k}</Dropdown.Item>
-                  ))
-                }
-              </DropdownButton>
-            </Col>
-            <Col sm="2" lg="1" md="1">
-              <Button onClick={() => this.handleSubmit()}>
-                <h6>Submit</h6>
-              </Button>
-            </Col>
-          </Row>
-        </div>
+        {this.state.addButtonVisible ?
+          <Button onClick={() => this.toggleAddButton(!this.state.addButtonVisible)} style={{marginTop: 10, width:'100%', padding: 10}}>
+            <h5>(+) Add More Currencies</h5>
+          </Button>
+          :
+          <div style={{marginTop: 10}}>
+            <Row>
+              <Col>
+                <DropdownButton id="dropdown-item-button" title={this.state.selectedRates===''? 'Select Rates' : this.state.selectedRates[0]}>
+                  {this.props.listAllExchangeRatesLoading ? 'Loading. . . ..' : 
+                    Object.entries(this.props.listAllExchangeRates).map(([k, v]) => (
+                      <Dropdown.Item as="button" eventKey={[k, v]} onSelect={this.handleSelected} key={k}>{k}</Dropdown.Item>
+                    ))
+                  }
+                </DropdownButton>
+              </Col>
+              <Col sm="2" lg="1" md="1">
+                <Button onClick={() => this.handleSubmit()}>
+                  <h6>Submit</h6>
+                </Button>
+              </Col>
+            </Row>
+          </div> 
+        }
         </Container>
       </div>
     )
