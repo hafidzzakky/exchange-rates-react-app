@@ -110,7 +110,7 @@ export const ListExchange = (props) => {
                 </Col>
                 </Col>
                 <Col sm="2" lg="1" md="1">
-                <div className="button-delete" onClick={() => props.clicked(props.index)}>
+                <div className="button-delete" onClick={() => props.clicked(props.index, [props.rates, props.value])}>
                     <h6 className="text-button">( - )</h6>
                 </div>
                 </Col>

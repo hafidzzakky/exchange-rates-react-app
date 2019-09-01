@@ -37,15 +37,24 @@ export const changeInitialValue = (text) => {
     }
 }
 
-export const insertRates = (rates) => {
-    console.log('rates : ', rates);
+const arrayRemains = (array, arraySelected) => {
+    array = array.filter((item) => {
+        return !arraySelected.includes(item);
+    })
+}
+
+export const insertRates = (rates, array) => {
+    delete array[rates[0]]; 
     return(dispatch) => {
-        dispatch({type: SUBMIT_RATES_VALUE, payload: {rates: rates[0], value: rates[1]}});
+        console.log(delete array[rates[0]]);
+        dispatch({type: SUBMIT_RATES_VALUE, payload: {rates: rates[0], value: rates[1], newRates: array}});
     }
 }
 
-export const removeRates = (index) => {
+export const removeRates = (index, removedItem, array) => {
     console.log('rates : ', index);
+    console.log('array : ', array);
+    array[removedItem[0]] = parseFloat(removedItem[1]);
     return(dispatch) => {
         dispatch({type: REMOVE_RATES_VALUE, payload: index});
     }

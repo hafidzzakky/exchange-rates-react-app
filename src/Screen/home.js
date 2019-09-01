@@ -44,18 +44,19 @@ class Home extends PureComponent {
 
   handleSubmit = () => {
     this.toggleAddButton(!this.state.addButtonVisible);
-    this.props.insertRates(this.state.selectedRates);
-    
+    this.props.insertRates(this.state.selectedRates, this.props.listAllExchangeRates);
   }
 
-  removeExchangeRates = (index) => {
-    this.props.removeRates(index);
+  removeExchangeRates = (index, removedItem) => {
+    console.log('addItem : ', removedItem);
+    this.props.removeRates(index, removedItem, this.props.listAllExchangeRates);
   } 
 
   toggleAddButton = (visible) => {
     console.log('toggale ', this.state.addButtonVisible)
     this.setState({
-      addButtonVisible: visible
+      addButtonVisible: visible,
+      selectedRates: ''
     })
   }
 
