@@ -22,7 +22,6 @@ export const getAllExchangeRates = () => {
         .then(response => response.json())
         .then((data) => {
             dispatch({ type: GET_ALL_LATEST_RATE_SUCCESS, payload: data }); 
-            console.log(data);
         })
         .catch((error) => {
             dispatch({ type : GET_ALL_LATEST_RATE_FAIL });
@@ -37,23 +36,14 @@ export const changeInitialValue = (text) => {
     }
 }
 
-const arrayRemains = (array, arraySelected) => {
-    array = array.filter((item) => {
-        return !arraySelected.includes(item);
-    })
-}
-
 export const insertRates = (rates, array) => {
     delete array[rates[0]]; 
     return(dispatch) => {
-        console.log(delete array[rates[0]]);
         dispatch({type: SUBMIT_RATES_VALUE, payload: {rates: rates[0], value: rates[1], newRates: array}});
     }
 }
 
 export const removeRates = (index, removedItem, array) => {
-    console.log('rates : ', index);
-    console.log('array : ', array);
     array[removedItem[0]] = parseFloat(removedItem[1]);
     return(dispatch) => {
         dispatch({type: REMOVE_RATES_VALUE, payload: index});

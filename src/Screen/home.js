@@ -11,8 +11,7 @@ import {
   Container,
   Row,
   Col,
-  Dropdown,
-  DropdownButton
+  Dropdown
  } from 'react-bootstrap';
  import {
    ListExchange
@@ -24,7 +23,8 @@ class Home extends PureComponent {
     super(props);
     this.state = {
       selectedRates : "",
-      addButtonVisible: true
+      addButtonVisible: true,
+      showDropDown: false
     }
     this.handleChange = this.handleChange.bind(this);
   }
@@ -33,13 +33,75 @@ class Home extends PureComponent {
     this.props.getAllExchangeRates();
   }
 
+  renderList = () => {
+    if(this.props.listAllExchangeRatesLoading){
+      return <h5>Loading. . .</h5>
+    }else{
+      return this.props.selectedRates.map((item, index) => (
+        <ListExchange 
+          clicked={this.removeExchangeRates} 
+          index={index} 
+          rates={item.rates} 
+          key={item.rates} 
+          value={item.value} 
+          initial={this.props.initialExchangeValue} />
+      ))
+    }
+  }
+  
+  renderButton = () => {
+    if(this.state.addButtonVisible){
+      return (
+        <Button 
+          className="button-add" 
+          onClick={() => this.toggleAddButton(!this.state.addButtonVisible)}>
+          <h5>(+) Add More Currencies</h5>
+        </Button>
+      );
+    }else{
+      return (
+        <div className="dropdown-container">
+          <div className="row-container">
+            <Row>
+              <Col className="right-padder">
+                <input 
+                className="input-dropdown-style"
+                onFocus={() => this.toggleDropdown(!this.state.showDropDown)}
+                type="text" 
+                value={this.state.selectedRates===''? 'Select Rates' : this.state.selectedRates[0]} 
+                readOnly
+                />
+                <Dropdown.Menu className="dropdown-menu-container" show={this.state.showDropDown}>
+                  {this.props.listAllExchangeRatesLoading ? 'Loading. . . ..' : 
+                    Object.entries(this.props.listAllExchangeRates).map(([k, v]) => (
+                      <Dropdown.Item 
+                        as="button" 
+                        eventKey={[k, v]} 
+                        onSelect={this.handleSelected} 
+                        key={k}>{k}</Dropdown.Item>
+                    ))
+                  }
+                </Dropdown.Menu>
+              </Col>
+              <Col sm="2" lg="1" md="1" className="button-col-style">
+                <Button className="button-submit-style" size="sm" disabled={this.state.selectedRates === '' ? true : false} onClick={() => this.handleSubmit()}>
+                  Submit
+                </Button>
+              </Col>
+            </Row>
+          </div>
+        </div> 
+      );
+    }
+  }
+
   handleChange(event) {
     this.props.changeInitialValue(event.target.value);
   }
 
   handleSelected = (rates) => {
     const exchangeRates = rates.split(',');
-    this.setState({selectedRates: exchangeRates});
+    this.setState({selectedRates: exchangeRates, showDropDown: false});
   }
 
   handleSubmit = () => {
@@ -48,64 +110,50 @@ class Home extends PureComponent {
   }
 
   removeExchangeRates = (index, removedItem) => {
-    console.log('addItem : ', removedItem);
     this.props.removeRates(index, removedItem, this.props.listAllExchangeRates);
   } 
 
   toggleAddButton = (visible) => {
-    console.log('toggale ', this.state.addButtonVisible)
     this.setState({
       addButtonVisible: visible,
-      selectedRates: ''
+      selectedRates: '',
+      showDropDown: false
+    })
+  }
+
+  toggleDropdown = (visible) => {
+    this.setState({
+      showDropDown: visible,
     })
   }
 
   render() {
     return (
       <div>
-        <div style={{padding: 10, backgroundColor: '#343a40'}}>
+        {/* Header */}
+        <div className="navbar-style">
           <Row>
             <Col>
-              <h6 style={{color: '#fff'}}>USD - United State Dollars</h6>
+              <h6 className="navbar-text-color">USD - United State Dollars</h6>
             </Col>
           </Row>
           <Row>
-            <Col><h1 style={{color: '#fff'}}>USD</h1></Col>
+            <Col><h1 className="navbar-text-color">USD</h1></Col>
             <Col>
-              <input className="input-currency" type="text" value={this.props.initialExchangeValue} onChange={this.handleChange} />
+              <input 
+                className="input-currency" 
+                type="text" 
+                value={this.props.initialExchangeValue} 
+                onChange={this.handleChange} />
             </Col>
           </Row>
         </div>
-        <Container>
-        {this.props.listAllExchangeRatesLoading ? 'Loading. . . ..' : 
-          this.props.selectedRates.map((item, index) => (
-            <ListExchange clicked={this.removeExchangeRates} index={index} rates={item.rates} key={item.rates} value={item.value} initial={this.props.initialExchangeValue} />
-          ))
-        }
-        {this.state.addButtonVisible ?
-          <Button onClick={() => this.toggleAddButton(!this.state.addButtonVisible)} style={{marginTop: 10, width:'100%', padding: 10}}>
-            <h5>(+) Add More Currencies</h5>
-          </Button>
-          :
-          <div style={{marginTop: 10}}>
-            <Row>
-              <Col>
-                <DropdownButton id="dropdown-item-button" title={this.state.selectedRates===''? 'Select Rates' : this.state.selectedRates[0]}>
-                  {this.props.listAllExchangeRatesLoading ? 'Loading. . . ..' : 
-                    Object.entries(this.props.listAllExchangeRates).map(([k, v]) => (
-                      <Dropdown.Item as="button" eventKey={[k, v]} onSelect={this.handleSelected} key={k}>{k}</Dropdown.Item>
-                    ))
-                  }
-                </DropdownButton>
-              </Col>
-              <Col sm="2" lg="1" md="1">
-                <Button onClick={() => this.handleSubmit()}>
-                  <h6>Submit</h6>
-                </Button>
-              </Col>
-            </Row>
-          </div> 
-        }
+        {/* Body */}
+        <Container className="content-container">
+          {/* Render List Exchange */}
+          {this.renderList()}
+          {/* Render Button or Dropdown */}
+          {this.renderButton()}
         </Container>
       </div>
     )

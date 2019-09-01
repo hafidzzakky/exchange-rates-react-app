@@ -24,3 +24,15 @@
     display: inline-block;
     vertical-align: middle;
 }
+
+.text-list-color {
+    color: #343a40;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.list-container {
+    padding: 10px;
+}

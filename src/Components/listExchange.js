@@ -6,10 +6,10 @@ import {
 import './listExchange.css';
 
 const countValueByRates = (value, initial) => {
-    return digitGrouping(value * initial);
+    return DigitGrouping(value * initial);
 }
 
-const digitGrouping = (value) => {
+export const DigitGrouping = (value) => {
     let str = value.toString().split('.');
     if (str[0].length >= 5) {
         str[0] = str[0].replace(/(\d)(?=(\d{3})+$)/g, '$1,');
@@ -21,7 +21,6 @@ const digitGrouping = (value) => {
 }
 
 const ratesName = (rates) => {
-    // USD - CAD - IDR - GBP - CHF - SGD - INR - MYR - JPY - KRW
     if(rates === 'CAD'){
         return 'Canadian Dollar'
     }else if(rates === 'IDR'){
@@ -95,19 +94,19 @@ export const ListExchange = (props) => {
     return (
         <div className="container-currency">
             <Row>
-                <Col style={{padding: 10}}>
-                <Col>
-                    <Row>
-                    <Col><h4 style={{color: '#343a40'}}>{props.rates}</h4></Col>
-                    <Col><h4 style={{color: '#343a40', textAlign: 'right'}}>{countValueByRates(props.value, props.initial)}</h4></Col>
-                    </Row>
-                </Col>
-                <Col>
-                    <h6>{props.rates} - {ratesName(props.rates)}</h6>
-                </Col>
-                <Col>
-                    <h6>1 USD = {props.rates} {props.value}</h6>
-                </Col>
+                <Col className="list-container">
+                    <Col>
+                        <Row>
+                        <Col><h4 className="text-list-color">{props.rates}</h4></Col>
+                        <Col><h4 className="text-list-color text-right">{countValueByRates(props.value, props.initial)}</h4></Col>
+                        </Row>
+                    </Col>
+                    <Col>
+                        <h6>{props.rates} - {ratesName(props.rates)}</h6>
+                    </Col>
+                    <Col>
+                        <h6>1 USD = {props.rates} {props.value}</h6>
+                    </Col>
                 </Col>
                 <Col sm="2" lg="1" md="1">
                 <div className="button-delete" onClick={() => props.clicked(props.index, [props.rates, props.value])}>

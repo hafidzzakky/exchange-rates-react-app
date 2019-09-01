@@ -1,5 +1,5 @@
 .input-currency {
-    color: rgb(255, 255, 255);
+    color: #fff;
     background-color: #343a40;
     text-align: right;
     border-width: 0;
@@ -13,4 +13,53 @@
     outline: none;
 }
 
+.content-container {
+    padding: 20px;
+}
 
+.button-add {
+    margin-top: 10px;
+    width: 100%;
+    padding: 10px;    
+}
+
+.dropdown-container {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.navbar-style {
+    padding: 10px;
+    background-color: #343a40;
+}
+
+.navbar-text-color {
+    color: #fff;
+}
+
+.row-container {    
+    margin-top: 10px
+}
+
+.right-padder {
+    padding-right: 10px!important;
+}
+
+.dropdown-menu-container {
+    width: 98%;
+    margin-left: 15px!important;
+}
+
+.input-dropdown-style {
+    height: 100%;
+    width: 100%;
+    padding: 3px;
+}
+
+.button-col-style {
+    padding-left: 0px;
+}
+
+.button-submit-style {
+    width: 100%;
+}
