@@ -1,0 +1,26 @@
+.container-currency {
+    border-radius: 8px;
+    border-color: #343a40;
+    -webkit-box-shadow: -1px 0px 16px -5px rgba(179,179,179,1);
+    -moz-box-shadow: -1px 0px 16px -5px rgba(179,179,179,1);
+    box-shadow: -1px 0px 16px -5px rgba(179,179,179,1);
+    margin: 10px 0 10px 0;
+}
+
+.button-delete {
+    background-color: #e74c3c;
+    border-radius: 0px 8px 8px 0px;
+    height: 100%;
+    text-align: center;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.text-button {    
+    display: inline-block;
+    vertical-align: middle;
+}

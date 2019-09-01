@@ -1,0 +1,33 @@
+import {
+    GET_ALL_LATEST_RATE,
+    GET_ALL_LATEST_RATE_SUCCESS,
+    GET_ALL_LATEST_RATE_FAIL,
+    CHANGE_INITIAL_VALUE,
+    SUBMIT_RATES_VALUE
+} from '../Actions/types';
+
+const INITIAL_STATE = {
+    data: [],
+    rates: [],
+    selectedRates:[],
+    error: '',
+    initial: 10,
+    loading: false
+};
+
+export default (state = INITIAL_STATE, action) => {
+    switch(action.type){
+        case GET_ALL_LATEST_RATE:
+            return { ...state, error: '', loading: true};
+        case GET_ALL_LATEST_RATE_SUCCESS:
+            return { ...state, data: action.payload, rates: action.payload.rates, loading: false};
+        case GET_ALL_LATEST_RATE_FAIL:
+            return { ...state, error: 'Terjadi Kesalahan Sistem', loading: false};
+        case CHANGE_INITIAL_VALUE:
+            return { ...state, initial: action.payload};
+        case SUBMIT_RATES_VALUE:
+            return { ...state, selectedRates: [...state.selectedRates, action.payload]};
+        default:
+            return state;
+    }
+};

@@ -1,0 +1,16 @@
+.input-currency {
+    color: rgb(255, 255, 255);
+    background-color: #343a40;
+    text-align: right;
+    border-width: 0;
+    height: 100%;
+    width: 100%;
+    font-size: 40px;
+    font-weight: 500;
+}
+
+.input-currency:focus {
+    outline: none;
+}
+
+
